@@ -1238,7 +1238,7 @@
                 name: ['', i1$2.Validators.required],
                 defaultpageid: ['', i1$2.Validators.required],
                 parentid: [2],
-                policyGroupId: [0, i1$2.Validators.required],
+                policyGroupId: ['', i1$2.Validators.required],
                 dossierid: ['']
             });
         };
@@ -1518,39 +1518,39 @@
             this.formSubmit = true;
             var data = this.roleForm.getRawValue();
             // const validate = this.roleValidation();
-            if (!this.roleForm.value.policyGroupId) {
-                var dossierConfig = this.reportDashboardList
-                    .filter(function (dossier) { return dossier.id === data.dossierid; })
-                    .map(function (a) { return ({
-                    id: a.id,
-                    projectId: a.projectId
-                }); })[0];
+            // if (!this.roleForm.value.policyGroupId) {
+            var dossierConfig = this.reportDashboardList
+                .filter(function (dossier) { return dossier.id === data.dossierid; })
+                .map(function (a) { return ({
+                id: a.id,
+                projectId: a.projectId
+            }); })[0];
+            data.priority = this.environment.priority;
+            data.applicationid = this.environment.applicationid;
+            data.parentid = 2;
+            data.permissions = this.selectedPermissionsGroup;
+            data.dossierid = JSON.stringify(dossierConfig);
+            data = Object.assign({ organizationid: this.orgId }, data);
+            if (this.roleId) {
+                data.id = Number(this.roleId);
+                this.rolesService.updateRole(this.roleId, data).subscribe(function () {
+                    _this.getRoleList();
+                    _this.mapPolicyGroupToRole(_this.roleId, data.policyGroupId);
+                    _this.alertService.success('Role updated successfully');
+                }, function (err) { return _this.alertService.error(err.error.message); });
+            }
+            else {
+                data.id = 0;
                 data.priority = this.environment.priority;
-                data.applicationid = this.environment.applicationid;
-                data.parentid = 2;
-                data.permissions = this.selectedPermissionsGroup;
-                data.dossierid = JSON.stringify(dossierConfig);
-                data = Object.assign({ organizationid: this.orgId }, data);
-                if (this.roleId) {
-                    data.id = Number(this.roleId);
-                    this.rolesService.updateRole(this.roleId, data).subscribe(function () {
-                        _this.getRoleList();
-                        _this.mapPolicyGroupToRole(_this.roleId, data.policyGroupId);
-                        _this.alertService.success('Role updated successfully');
-                    }, function (err) { return _this.alertService.error(err.error.message); });
-                }
-                else {
-                    data.id = 0;
-                    data.priority = this.environment.priority;
-                    this.rolesService.createRole(data).subscribe(function (res) {
-                        _this.cancel();
-                        if (data.policyGroupId) {
-                            _this.mapPolicyGroupToRole(res['data'], data.policyGroupId, 'add');
-                        }
-                        _this.alertService.success('Role saved successfully');
-                        _this.getRoleList();
-                    }, function (err) { return _this.alertService.error(err.error.message); });
-                }
+                this.rolesService.createRole(data).subscribe(function (res) {
+                    _this.cancel();
+                    if (data.policyGroupId) {
+                        _this.mapPolicyGroupToRole(res['data'], data.policyGroupId, 'add');
+                    }
+                    _this.alertService.success('Role saved successfully');
+                    _this.getRoleList();
+                }, function (err) { return _this.alertService.error(err.error.message); });
+                // }
             }
         };
         RolesComponent.prototype.mapPolicyGroupToRole = function (id, data, action) {
