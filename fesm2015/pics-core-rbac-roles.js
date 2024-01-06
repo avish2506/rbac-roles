@@ -959,41 +959,41 @@ class RolesComponent {
     addRole() {
         this.formSubmit = true;
         let data = this.roleForm.getRawValue();
-        // const validate = this.roleValidation();
-        // if (validate) {
-        const dossierConfig = this.reportDashboardList
-            .filter((dossier) => dossier.id === data.dossierid)
-            .map((a) => ({
-            id: a.id,
-            projectId: a.projectId
-        }))[0];
-        data.priority = this.environment.priority;
-        data.applicationid = this.environment.applicationid;
-        data.parentid = 2;
-        data.permissions = this.selectedPermissionsGroup;
-        data.dossierid = JSON.stringify(dossierConfig);
-        data = Object.assign({ organizationid: this.orgId }, data);
-        if (this.roleId) {
-            data.id = Number(this.roleId);
-            this.rolesService.updateRole(this.roleId, data).subscribe(() => {
-                this.getRoleList();
-                this.mapPolicyGroupToRole(this.roleId, data.policyGroupId);
-                this.alertService.success('Role updated successfully');
-            }, (err) => this.alertService.error(err.error.message));
-        }
-        else {
-            data.id = 0;
+        const validate = this.roleValidation();
+        if (validate) {
+            const dossierConfig = this.reportDashboardList
+                .filter((dossier) => dossier.id === data.dossierid)
+                .map((a) => ({
+                id: a.id,
+                projectId: a.projectId
+            }))[0];
             data.priority = this.environment.priority;
-            this.rolesService.createRole(data).subscribe((res) => {
-                this.cancel();
-                if (data.policyGroupId) {
-                    this.mapPolicyGroupToRole(res['data'], data.policyGroupId, 'add');
-                }
-                this.alertService.success('Role saved successfully');
-                this.getRoleList();
-            }, (err) => this.alertService.error(err.error.message));
+            data.applicationid = this.environment.applicationid;
+            data.parentid = 2;
+            data.permissions = this.selectedPermissionsGroup;
+            data.dossierid = JSON.stringify(dossierConfig);
+            data = Object.assign({ organizationid: this.orgId }, data);
+            if (this.roleId) {
+                data.id = Number(this.roleId);
+                this.rolesService.updateRole(this.roleId, data).subscribe(() => {
+                    this.getRoleList();
+                    this.mapPolicyGroupToRole(this.roleId, data.policyGroupId);
+                    this.alertService.success('Role updated successfully');
+                }, (err) => this.alertService.error(err.error.message));
+            }
+            else {
+                data.id = 0;
+                data.priority = this.environment.priority;
+                this.rolesService.createRole(data).subscribe((res) => {
+                    this.cancel();
+                    if (data.policyGroupId) {
+                        this.mapPolicyGroupToRole(res['data'], data.policyGroupId, 'add');
+                    }
+                    this.alertService.success('Role saved successfully');
+                    this.getRoleList();
+                }, (err) => this.alertService.error(err.error.message));
+            }
         }
-        // }
     }
     mapPolicyGroupToRole(id, data, action) {
         if (action === 'add') {
@@ -1042,13 +1042,12 @@ class RolesComponent {
             this.reportDashboardList = yield this.mstrService.getLibraryDetails(this.RBACORG);
         });
     }
-    // roleValidation(): any {
-    //   if (!this.roleForm.value.dossierid) {
-    //     this.alertService.warn('Please fill all required fields');
-    //     return false;
-    //   }
-    //   return true;
-    // }
+    roleValidation() {
+        if (!this.roleForm.value.policyGroupId) {
+            return false;
+        }
+        return true;
+    }
     onModelRole(value) {
         this.modelRoleName = value.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
     }
