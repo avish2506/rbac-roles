@@ -959,8 +959,7 @@ class RolesComponent {
     addRole() {
         this.formSubmit = true;
         let data = this.roleForm.getRawValue();
-        // const validate = this.roleValidation();
-        if (!this.roleForm.value.policyGroupId) {
+        if (!this.roleForm.value.dossierid || !this.roleForm.value.policyGroupId) {
             const dossierConfig = this.reportDashboardList
                 .filter((dossier) => dossier.id === data.dossierid)
                 .map((a) => ({
