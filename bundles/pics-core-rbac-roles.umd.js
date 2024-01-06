@@ -1517,7 +1517,7 @@
             var _this = this;
             this.formSubmit = true;
             var data = this.roleForm.getRawValue();
-            if (!this.roleForm.value.dossierid || !this.roleForm.value.policyGroupId) {
+            if (this.roleForm.valid) {
                 var dossierConfig = this.reportDashboardList
                     .filter(function (dossier) { return dossier.id === data.dossierid; })
                     .map(function (a) { return ({
