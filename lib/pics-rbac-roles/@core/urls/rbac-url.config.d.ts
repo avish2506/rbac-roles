@@ -55,10 +55,6 @@ export declare class PermissionsURL {
         permission: {
             permissionRoleById: string;
         };
-        page: {
-            getPageInformation: string;
-            updateMenuOrder: string;
-        };
     };
 }
 export declare class RBACINFO {
