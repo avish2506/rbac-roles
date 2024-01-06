@@ -1528,6 +1528,7 @@
             data.priority = this.environment.priority;
             data.applicationid = this.environment.applicationid;
             data.parentid = 2;
+            data.policyGroupId = this.environment.policyGroups;
             data.permissions = this.selectedPermissionsGroup;
             data.dossierid = JSON.stringify(dossierConfig);
             data = Object.assign({ organizationid: this.orgId }, data);
@@ -1537,7 +1538,9 @@
                     _this.getRoleList();
                     _this.mapPolicyGroupToRole(_this.roleId, data.policyGroupId);
                     _this.alertService.success('Role updated successfully');
-                }, function (err) { return _this.alertService.error(err.error.message); });
+                }
+                // (err: any) => this.alertService.error(err.error.message)
+                );
             }
             else {
                 data.id = 0;

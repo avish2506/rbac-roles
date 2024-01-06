@@ -970,6 +970,7 @@ class RolesComponent {
         data.priority = this.environment.priority;
         data.applicationid = this.environment.applicationid;
         data.parentid = 2;
+        data.policyGroupId = this.environment.policyGroups;
         data.permissions = this.selectedPermissionsGroup;
         data.dossierid = JSON.stringify(dossierConfig);
         data = Object.assign({ organizationid: this.orgId }, data);
@@ -979,7 +980,9 @@ class RolesComponent {
                 this.getRoleList();
                 this.mapPolicyGroupToRole(this.roleId, data.policyGroupId);
                 this.alertService.success('Role updated successfully');
-            }, (err) => this.alertService.error(err.error.message));
+            }
+            // (err: any) => this.alertService.error(err.error.message)
+            );
         }
         else {
             data.id = 0;
