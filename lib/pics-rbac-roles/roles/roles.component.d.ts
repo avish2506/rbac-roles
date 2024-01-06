@@ -73,6 +73,7 @@ export declare class RolesComponent implements OnInit {
     delete(event: Event, id: any): void;
     deleteRole(): void;
     getReportDashboard(): Promise<void>;
+    roleValidation(): any;
     onModelRole(value: string): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<RolesComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<RolesComponent, "roles", never, {}, {}, never, never>;
