@@ -1515,12 +1515,11 @@
         };
         RolesComponent.prototype.addRole = function () {
             var _this = this;
+            var _a, _b;
             this.formSubmit = true;
             var data = this.roleForm.getRawValue();
             if (this.roleForm.valid) {
-                var dossierConfig = this.reportDashboardList
-                    .filter(function (dossier) { return dossier.id === data.dossierid; })
-                    .map(function (a) { return ({
+                var dossierConfig = (_b = (_a = this.reportDashboardList) === null || _a === void 0 ? void 0 : _a.filter(function (dossier) { return dossier.id === data.dossierid; })) === null || _b === void 0 ? void 0 : _b.map(function (a) { return ({
                     id: a.id,
                     projectId: a.projectId
                 }); })[0];

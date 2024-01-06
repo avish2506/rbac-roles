@@ -957,12 +957,11 @@ class RolesComponent {
         }
     }
     addRole() {
+        var _a, _b;
         this.formSubmit = true;
         let data = this.roleForm.getRawValue();
         if (this.roleForm.valid) {
-            const dossierConfig = this.reportDashboardList
-                .filter((dossier) => dossier.id === data.dossierid)
-                .map((a) => ({
+            const dossierConfig = (_b = (_a = this.reportDashboardList) === null || _a === void 0 ? void 0 : _a.filter((dossier) => dossier.id === data.dossierid)) === null || _b === void 0 ? void 0 : _b.map((a) => ({
                 id: a.id,
                 projectId: a.projectId
             }))[0];
