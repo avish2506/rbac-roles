@@ -960,39 +960,39 @@ class RolesComponent {
         this.formSubmit = true;
         let data = this.roleForm.getRawValue();
         // const validate = this.roleValidation();
-        // if (!this.roleForm.value.policyGroupId) {
-        const dossierConfig = this.reportDashboardList
-            .filter((dossier) => dossier.id === data.dossierid)
-            .map((a) => ({
-            id: a.id,
-            projectId: a.projectId
-        }))[0];
-        data.priority = this.environment.priority;
-        data.applicationid = this.environment.applicationid;
-        data.parentid = 2;
-        data.permissions = this.selectedPermissionsGroup;
-        data.dossierid = JSON.stringify(dossierConfig);
-        data = Object.assign({ organizationid: this.orgId }, data);
-        if (this.roleId) {
-            data.id = Number(this.roleId);
-            this.rolesService.updateRole(this.roleId, data).subscribe(() => {
-                this.getRoleList();
-                this.mapPolicyGroupToRole(this.roleId, data.policyGroupId);
-                this.alertService.success('Role updated successfully');
-            }, (err) => this.alertService.error(err.error.message));
-        }
-        else {
-            data.id = 0;
+        if (!this.roleForm.value.policyGroupId) {
+            const dossierConfig = this.reportDashboardList
+                .filter((dossier) => dossier.id === data.dossierid)
+                .map((a) => ({
+                id: a.id,
+                projectId: a.projectId
+            }))[0];
             data.priority = this.environment.priority;
-            this.rolesService.createRole(data).subscribe((res) => {
-                this.cancel();
-                if (data.policyGroupId) {
-                    this.mapPolicyGroupToRole(res['data'], data.policyGroupId, 'add');
-                }
-                this.alertService.success('Role saved successfully');
-                this.getRoleList();
-            }, (err) => this.alertService.error(err.error.message));
-            // }
+            data.applicationid = this.environment.applicationid;
+            data.parentid = 2;
+            data.permissions = this.selectedPermissionsGroup;
+            data.dossierid = JSON.stringify(dossierConfig);
+            data = Object.assign({ organizationid: this.orgId }, data);
+            if (this.roleId) {
+                data.id = Number(this.roleId);
+                this.rolesService.updateRole(this.roleId, data).subscribe(() => {
+                    this.getRoleList();
+                    this.mapPolicyGroupToRole(this.roleId, data.policyGroupId);
+                    this.alertService.success('Role updated successfully');
+                }, (err) => this.alertService.error(err.error.message));
+            }
+            else {
+                data.id = 0;
+                data.priority = this.environment.priority;
+                this.rolesService.createRole(data).subscribe((res) => {
+                    this.cancel();
+                    if (data.policyGroupId) {
+                        this.mapPolicyGroupToRole(res['data'], data.policyGroupId, 'add');
+                    }
+                    this.alertService.success('Role saved successfully');
+                    this.getRoleList();
+                }, (err) => this.alertService.error(err.error.message));
+            }
         }
     }
     mapPolicyGroupToRole(id, data, action) {
