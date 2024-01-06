@@ -1517,8 +1517,8 @@
             var _this = this;
             this.formSubmit = true;
             var data = this.roleForm.getRawValue();
-            var validate = this.roleValidation();
-            if (validate) {
+            // const validate = this.roleValidation();
+            if (!this.roleForm.value.policyGroupId) {
                 var dossierConfig = this.reportDashboardList
                     .filter(function (dossier) { return dossier.id === data.dossierid; })
                     .map(function (a) { return ({
@@ -1528,7 +1528,6 @@
                 data.priority = this.environment.priority;
                 data.applicationid = this.environment.applicationid;
                 data.parentid = 2;
-                data.policyGroupId = this.environment.policyGroups;
                 data.permissions = this.selectedPermissionsGroup;
                 data.dossierid = JSON.stringify(dossierConfig);
                 data = Object.assign({ organizationid: this.orgId }, data);
@@ -1623,13 +1622,13 @@
                 });
             });
         };
-        RolesComponent.prototype.roleValidation = function () {
-            if (!this.roleForm.value.policyGroupId) {
-                this.alertService.warn('Please fill all required fields');
-                return false;
-            }
-            return true;
-        };
+        // roleValidation(): any {
+        //   if (!this.roleForm.value.dossierid) {
+        //     this.alertService.warn('Please fill all required fields');
+        //     return false;
+        //   }
+        //   return true;
+        // }
         RolesComponent.prototype.onModelRole = function (value) {
             this.modelRoleName = value.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
         };

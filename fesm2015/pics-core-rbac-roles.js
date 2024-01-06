@@ -959,8 +959,8 @@ class RolesComponent {
     addRole() {
         this.formSubmit = true;
         let data = this.roleForm.getRawValue();
-        const validate = this.roleValidation();
-        if (validate) {
+        // const validate = this.roleValidation();
+        if (!this.roleForm.value.policyGroupId) {
             const dossierConfig = this.reportDashboardList
                 .filter((dossier) => dossier.id === data.dossierid)
                 .map((a) => ({
@@ -970,7 +970,6 @@ class RolesComponent {
             data.priority = this.environment.priority;
             data.applicationid = this.environment.applicationid;
             data.parentid = 2;
-            data.policyGroupId = this.environment.policyGroups;
             data.permissions = this.selectedPermissionsGroup;
             data.dossierid = JSON.stringify(dossierConfig);
             data = Object.assign({ organizationid: this.orgId }, data);
@@ -1043,13 +1042,13 @@ class RolesComponent {
             this.reportDashboardList = yield this.mstrService.getLibraryDetails(this.RBACORG);
         });
     }
-    roleValidation() {
-        if (!this.roleForm.value.policyGroupId) {
-            this.alertService.warn('Please fill all required fields');
-            return false;
-        }
-        return true;
-    }
+    // roleValidation(): any {
+    //   if (!this.roleForm.value.dossierid) {
+    //     this.alertService.warn('Please fill all required fields');
+    //     return false;
+    //   }
+    //   return true;
+    // }
     onModelRole(value) {
         this.modelRoleName = value.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
     }
