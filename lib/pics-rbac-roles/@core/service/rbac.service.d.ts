@@ -32,6 +32,8 @@ export declare class RbacService {
     getReportDashbaord(): any;
     getPermissionRoleById(id: string): any;
     getManagementGroupTree(_organizationid: any): any;
+    getAllPages(): any;
+    updateMenuOrder(page: any): any;
     static ɵfac: i0.ɵɵFactoryDeclaration<RbacService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<RbacService>;
 }
